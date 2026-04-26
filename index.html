@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Youssef Hefny | AI Engineer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "secondary-fixed":"#c9e6ff","on-secondary":"#00344d","on-tertiary":"#4f2500",
+          "tertiary-fixed-dim":"#ffb784","secondary-container":"#00a2e6","background":"#031427",
+          "on-secondary-fixed":"#001e2f","surface-container-lowest":"#000f21","secondary":"#89ceff",
+          "surface-container-high":"#1b2b3f","error":"#ffb4ab","surface-bright":"#2a3a4f",
+          "on-secondary-container":"#00344e","on-primary-fixed-variant":"#5a00c6",
+          "primary-fixed-dim":"#d2bbff","on-error":"#690005","primary":"#d2bbff",
+          "inverse-primary":"#732ee4","surface-container-low":"#0b1c30",
+          "surface-container":"#102034","surface-dim":"#031427","surface-variant":"#26364a",
+          "outline":"#958da1","on-secondary-fixed-variant":"#004c6e",
+          "on-tertiary-fixed-variant":"#713700","on-background":"#d3e4fe",
+          "surface-tint":"#d2bbff","outline-variant":"#4a4455","tertiary":"#ffb784",
+          "tertiary-container":"#a15100","on-tertiary-container":"#ffe0cd","on-primary":"#3f008e",
+          "on-tertiary-fixed":"#301400","surface":"#031427","error-container":"#93000a",
+          "surface-container-highest":"#26364a","tertiary-fixed":"#ffdcc6",
+          "on-primary-fixed":"#25005a","primary-container":"#7c3aed",
+          "on-error-container":"#ffdad6","on-surface":"#d3e4fe",
+          "on-primary-container":"#ede0ff","primary-fixed":"#eaddff",
+          "on-surface-variant":"#ccc3d8","inverse-on-surface":"#213145",
+          "secondary-fixed-dim":"#89ceff","inverse-surface":"#d3e4fe"
+        },
+        borderRadius: { "DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px" },
+        spacing: { "container-max":"1440px","unit":"8px","gutter":"24px","margin":"40px" },
+        fontFamily: {
+          "body-md":["Plus Jakarta Sans"],"display":["Plus Jakarta Sans"],
+          "h1":["Plus Jakarta Sans"],"h2":["Plus Jakarta Sans"],
+          "body-lg":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],
+          "mono-label":["Plus Jakarta Sans"]
+        },
+        fontSize: {
+          "body-md":["16px",{lineHeight:"1.6",fontWeight:"400"}],
+          "display":["48px",{lineHeight:"1.1",letterSpacing:"-0.02em",fontWeight:"700"}],
+          "h1":["32px",{lineHeight:"1.2",letterSpacing:"-0.01em",fontWeight:"600"}],
+          "h2":["24px",{lineHeight:"1.3",fontWeight:"600"}],
+          "body-lg":["18px",{lineHeight:"1.6",fontWeight:"400"}],
+          "label-md":["14px",{lineHeight:"1.0",letterSpacing:"0.05em",fontWeight:"500"}],
+          "mono-label":["12px",{lineHeight:"1.0",fontWeight:"600"}]
+        }
+      }
+    }
+  }
+</script>
+<style>
+  body { background-color: #031427; }
+  .silk-raised { box-shadow: -4px -4px 12px rgba(255,255,255,0.03), 6px 6px 16px rgba(0,0,0,0.4); }
+  .silk-inset { box-shadow: inset -2px -2px 6px rgba(255,255,255,0.02), inset 4px 4px 10px rgba(0,0,0,0.5); }
+  .silk-hover:hover { box-shadow: -6px -6px 16px rgba(255,255,255,0.04), 8px 8px 20px rgba(0,0,0,0.5); transform: translateY(-2px); }
+  .silk-border { border: 1px solid rgba(255,255,255,0.05); }
+  .led-pulse { animation: ledpulse 2s cubic-bezier(0.4,0,0.6,1) infinite; box-shadow: 0 0 8px #7c3aed; }
+  @keyframes ledpulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.1)} }
+  .page-section { display: none; }
+  .page-section.active { display: block; }
+  .nav-link { cursor: pointer; transition: all 0.2s; }
+  .nav-link.is-active { color: #8b5cf6 !important; border-bottom: 2px solid rgba(139,92,246,0.5); padding-bottom: 4px; }
+  .btn-primary { background: #7c3aed; color: white; transition: all 0.3s; }
+  .btn-primary:hover { background: #6d28d9; transform: translateY(-1px); }
+  .btn-primary:active { transform: scale(0.97); }
+  .input-field {
+    background: #0b1c30;
+    box-shadow: inset -2px -2px 6px rgba(255,255,255,0.02), inset 4px 4px 10px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.05);
+    color: #d3e4fe;
+    border-radius: 0.75rem;
+    padding: 0.875rem 1rem;
+    width: 100%;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  .input-field:focus { border-color: #7c3aed; }
+  .input-field::placeholder { color: #4a5568; }
+  label.field-label {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #958da1;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  .cert-icon {
+    width: 72px; height: 72px; border-radius: 12px;
+    background: linear-gradient(135deg,#1b2b3f,#102034);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    box-shadow: inset -2px -2px 6px rgba(255,255,255,0.02), inset 4px 4px 10px rgba(0,0,0,0.5);
+  }
+  .verified-badge {
+    background: rgba(124,58,237,0.15);
+    color: #a78bfa;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(124,58,237,0.3);
+  }
+  textarea.input-field { resize: none; min-height: 140px; }
+  .transmit-btn {
+    background: transparent;
+    border: none;
+    color: #a78bfa;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 12px 20px;
+    border-radius: 8px;
+    transition: all 0.3s;
+  }
+  .transmit-btn:hover { color: #c4b5fd; background: rgba(124,58,237,0.1); }
+  .channel-card {
+    background: #102034;
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s;
+    text-decoration: none;
+  }
+  .channel-card:hover { border-color: rgba(124,58,237,0.4); transform: translateY(-1px); }
+  .skill-tag {
+    background: #102034;
+    border: 1px solid rgba(255,255,255,0.05);
+    color: #958da1;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    padding: 4px 10px;
+    border-radius: 999px;
+    display: inline-block;
+  }
+  .skill-tag.purple { color: #a78bfa; border-color: rgba(124,58,237,0.3); background: rgba(124,58,237,0.08); }
+</style>
+</head>
+<body class="text-on-surface font-body-md selection:bg-primary/30">
+
+<!-- ============================================================ NAV -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-8 md:px-12 py-5 bg-[#031427]/90 backdrop-blur-md border-b border-white/5"
+     style="box-shadow:4px 4px 10px rgba(0,0,0,0.3),-2px -2px 10px rgba(255,255,255,0.02)">
+  <div onclick="navigate('home')" class="text-2xl font-black tracking-tighter text-neutral-50 cursor-pointer select-none">Aether.AI</div>
+  <div class="hidden md:flex items-center gap-8">
+    <span onclick="navigate('home')"       class="nav-link font-['Plus_Jakarta_Sans'] text-sm tracking-wide uppercase font-semibold text-neutral-400" data-page="home">Home</span>
+    <span onclick="navigate('projects')"   class="nav-link font-['Plus_Jakarta_Sans'] text-sm tracking-wide uppercase font-semibold text-neutral-400" data-page="projects">Projects</span>
+    <span onclick="navigate('credentials')"class="nav-link font-['Plus_Jakarta_Sans'] text-sm tracking-wide uppercase font-semibold text-neutral-400" data-page="credentials">Credentials</span>
+    <span onclick="navigate('contact')"    class="nav-link font-['Plus_Jakarta_Sans'] text-sm tracking-wide uppercase font-semibold text-neutral-400" data-page="contact">Contact</span>
+  </div>
+  <!-- ⚠️ Replace href with your actual hosted resume PDF link -->
+  <a href="https://drive.google.com/file/d/1l9v5aO8hQ9G8J4WcUwr249fEKvS4XEvn/view?usp=sharing" target="_blank" rel="noopener"
+     class="silk-raised silk-border px-6 py-2 rounded-lg font-['Plus_Jakarta_Sans'] text-sm tracking-wide uppercase font-semibold text-violet-500 hover:bg-white/5 active:scale-95 transition-all duration-300">
+    Resume
+  </a>
+</nav>
+
+<!-- ============================================================ HOME PAGE -->
+<section id="page-home" class="page-section">
+<main class="pt-24 px-8 md:px-12 max-w-[1440px] mx-auto">
+
+  <!-- Hero -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center min-h-[90vh] py-16">
+    <div>
+      <div class="flex items-center gap-3 mb-6">
+        <span class="w-2 h-2 rounded-full bg-violet-500 led-pulse"></span>
+        <span class="font-mono-label text-mono-label text-violet-500 tracking-[0.2em] uppercase">Available for Hire</span>
+      </div>
+      <h1 class="font-display text-[40px] md:text-display font-black tracking-tight text-neutral-50 leading-tight mb-2">AI Engineer &amp;</h1>
+      <h1 class="font-display text-[40px] md:text-display font-black tracking-tight text-violet-400 leading-tight mb-8">Architecting Intelligence</h1>
+      <p class="font-body-lg text-body-lg text-neutral-400 max-w-lg mb-10 leading-relaxed">
+        AI Engineer specializing in the intersection of deep learning and scalable production systems. I build advanced neural architectures that solve complex human challenges at scale.
+      </p>
+      <div class="flex flex-wrap gap-4">
+        <button onclick="navigate('projects')" class="btn-primary px-8 py-3 rounded-xl font-['Plus_Jakarta_Sans'] font-semibold text-sm tracking-wide">
+          Explore My Work
+        </button>
+        <button onclick="navigate('contact')" class="silk-raised silk-border px-8 py-3 rounded-xl font-['Plus_Jakarta_Sans'] font-semibold text-sm tracking-wide text-neutral-300 hover:text-white transition-all duration-300 active:scale-95">
+          Get In Touch
+        </button>
+      </div>
+    </div>
+    <div class="relative flex justify-center">
+      <div class="silk-raised silk-border rounded-3xl overflow-hidden max-w-sm w-full bg-surface-container-high" style="aspect-ratio:4/5">
+        <!-- ⚠️ Replace src with your actual photo URL or relative path e.g. "photo.jpg" -->
+        <img src="photo.jpg" alt="Youssef Hefny"
+             class="w-full h-full object-cover"
+             onerror="this.style.display='none';document.getElementById('photo-fallback').style.display='flex'"/>
+        <div id="photo-fallback" style="display:none" class="w-full h-full flex flex-col items-center justify-center gap-4 bg-gradient-to-br from-[#1b2b3f] to-[#102034]">
+          <span class="material-symbols-outlined text-7xl text-violet-400/50">person</span>
+          <span class="text-neutral-600 text-sm tracking-wider uppercase font-semibold">Add photo.jpg</span>
+        </div>
+      </div>
+      <!-- Floating badge -->
+      <div class="silk-raised silk-border absolute bottom-6 -left-4 md:-left-8 bg-surface-container p-4 rounded-2xl flex items-center gap-3 max-w-[190px]">
+        <span class="material-symbols-outlined text-violet-400 text-xl">hub</span>
+        <div>
+          <p class="text-neutral-500 text-[10px] uppercase tracking-wider font-semibold mb-1">Core Systems</p>
+          <p class="text-neutral-200 text-xs font-semibold leading-tight">Scalable ML Production Systems</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Technical Proficiency -->
+  <div class="py-20">
+    <h2 class="font-h1 text-h1 text-neutral-50 mb-3">Technical Proficiency</h2>
+    <p class="font-body-md text-body-md text-neutral-400 mb-12 max-w-xl">
+      A curated stack of tools and frameworks designed for high-performance machine learning and distributed systems.
+    </p>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Python -->
+      <div class="silk-raised silk-hover silk-border rounded-2xl bg-surface-container p-6 transition-all duration-300">
+        <div class="flex justify-between items-start mb-6">
+          <span class="material-symbols-outlined text-neutral-500 text-2xl">code</span>
+          <span class="text-xs px-3 py-1 rounded-full font-semibold" style="background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3)">Advanced</span>
+        </div>
+        <h3 class="font-h2 text-h2 text-neutral-50 mb-2">Python</h3>
+        <p class="text-neutral-400 text-sm">Automation &amp; Core Architecture</p>
+      </div>
+
+      <!-- Neural Frameworks -->
+      <div class="silk-raised silk-hover silk-border rounded-2xl bg-surface-container p-6 transition-all duration-300">
+        <div class="flex justify-between items-start mb-6">
+          <div class="flex gap-2">
+            <span class="material-symbols-outlined text-neutral-500 text-2xl">sync_alt</span>
+            <span class="material-symbols-outlined text-neutral-500 text-2xl">psychology</span>
+          </div>
+          <div class="flex gap-1 flex-wrap justify-end">
+            <span class="skill-tag">PyTorch</span>
+            <span class="skill-tag">TensorFlow</span>
+          </div>
+        </div>
+        <h3 class="font-h2 text-h2 text-neutral-50 mb-2">Neural Frameworks</h3>
+        <p class="text-neutral-400 text-sm">Deep learning research and deployment-ready models at scale.</p>
+      </div>
+
+      <!-- N8N -->
+      <div class="silk-raised silk-hover silk-border rounded-2xl bg-surface-container p-6 transition-all duration-300">
+        <div class="mb-6">
+          <span class="material-symbols-outlined text-neutral-500 text-2xl">grid_view</span>
+        </div>
+        <h3 class="font-h2 text-h2 text-neutral-50 mb-2">N8N</h3>
+        <p class="text-neutral-400 text-sm">Workflow automation and AI orchestration</p>
+      </div>
+
+      <!-- LLMs & NLP -->
+      <div class="silk-raised silk-hover silk-border rounded-2xl bg-surface-container p-6 transition-all duration-300">
+        <div class="flex justify-between items-start mb-6">
+          <span class="material-symbols-outlined text-neutral-500 text-2xl">chat</span>
+          <span class="text-xs px-3 py-1 rounded-full font-semibold" style="background:rgba(249,115,22,0.15);color:#fb923c;border:1px solid rgba(249,115,22,0.3)">Specialize</span>
+        </div>
+        <h3 class="font-h2 text-h2 text-neutral-50 mb-2">LLMs &amp; NLP</h3>
+        <p class="text-neutral-400 text-sm">Fine-tuning large language models, RAG architectures, and semantic search implementation.</p>
+      </div>
+
+      <!-- MCP -->
+      <div class="silk-raised silk-hover silk-border rounded-2xl bg-surface-container p-6 transition-all duration-300">
+        <div class="mb-6">
+          <span class="material-symbols-outlined text-neutral-500 text-2xl">settings_input_component</span>
+        </div>
+        <h3 class="font-h2 text-h2 text-neutral-50 mb-2">MCP</h3>
+        <p class="text-neutral-400 text-sm">Building custom tool integrations and command-line interfaces using the Model Context Protocol.</p>
+      </div>
+
+      <!-- Docker -->
+      <div class="silk-raised silk-hover silk-border rounded-2xl bg-surface-container p-6 transition-all duration-300">
+        <div class="flex justify-between items-start mb-6">
+          <span class="material-symbols-outlined text-neutral-500 text-2xl">directions_boat</span>
+          <span class="skill-tag">Essential</span>
+        </div>
+        <h3 class="font-h2 text-h2 text-neutral-50 mb-2">Docker</h3>
+        <p class="text-neutral-400 text-sm">Containerization &amp; Environment Parity</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CTA Section -->
+  <div class="silk-raised silk-border rounded-3xl bg-surface-container-low p-12 md:p-20 mb-24 text-center">
+    <h2 class="font-display text-[32px] md:text-display font-black tracking-tight text-neutral-50 mb-6">Ready to Scale Your Intelligence?</h2>
+    <p class="font-body-lg text-body-lg text-neutral-400 mb-10 max-w-xl mx-auto">
+      Currently open to senior-level opportunities in AI research and engineering. Let's build the future together.
+    </p>
+    <div class="flex flex-wrap justify-center gap-4">
+      <button onclick="navigate('contact')" class="btn-primary px-10 py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-semibold text-sm tracking-wide">
+        Contact Me
+      </button>
+      <a href="https://github.com/yhefnyy" target="_blank" rel="noopener"
+         class="silk-raised silk-border px-10 py-4 rounded-xl font-['Plus_Jakarta_Sans'] font-semibold text-sm tracking-wide text-neutral-300 hover:text-white transition-all duration-300 flex items-center gap-2">
+        <span class="material-symbols-outlined text-base">code</span>
+        View Github
+      </a>
+    </div>
+  </div>
+
+</main>
+
+<footer class="bg-neutral-950 border-t border-white/5 py-12" style="box-shadow:inset 0px 2px 10px rgba(0,0,0,0.5)">
+  <div class="max-w-7xl mx-auto px-12 flex flex-col md:flex-row justify-between items-center gap-6">
+    <div class="font-['Plus_Jakarta_Sans'] text-xs text-neutral-500 uppercase tracking-widest">© 2025 Youssef Hefny. All rights reserved.</div>
+    <div class="flex gap-8">
+      <a href="https://github.com/yhefnyy" target="_blank" rel="noopener" class="font-['Plus_Jakarta_Sans'] text-xs text-neutral-600 hover:text-violet-400 transition-colors uppercase tracking-widest">Github</a>
+      <a href="https://www.linkedin.com/in/youssef-hefny-03267b259" target="_blank" rel="noopener" class="font-['Plus_Jakarta_Sans'] text-xs text-neutral-600 hover:text-violet-400 transition-colors uppercase tracking-widest">LinkedIn</a>
+      <a href="mailto:youssefhefny15@gmail.com" class="font-['Plus_Jakarta_Sans'] text-xs text-neutral-600 hover:text-violet-400 transition-colors uppercase tracking-widest">Email</a>
+    </div>
+  </div>
+</footer>
+</section>
+
+<!-- ============================================================ PROJECTS PAGE -->
+<section id="page-projects" class="page-section">
+<main class="pt-32 pb-24 px-8 md:px-12 max-w-[1440px] mx-auto">
+  <header class="mb-16">
+    <div class="flex items-center gap-3 mb-4">
+      <span class="w-2 h-2 rounded-full bg-violet-500 led-pulse"></span>
+      <span class="font-mono-label text-mono-label text-violet-500 tracking-[0.2em] uppercase">Engineering Portfolio</span>
+    </div>
+    <h1 class="font-display text-display text-neutral-50 mb-6">High-Fidelity Projects</h1>
+    <p class="font-body-lg text-body-lg text-neutral-400 max-w-2xl">
+      A selection of advanced AI architectures and machine learning systems developed for scalability, precision, and efficiency.
+    </p>
+  </header>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+    <!-- Project 1 – GPT-2 Story Generator -->
+    <article class="silk-raised silk-hover silk-border group rounded-3xl bg-surface-container p-6 flex flex-col transition-all duration-500">
+      <div class="silk-inset rounded-2xl overflow-hidden mb-6 aspect-video relative">
+        <img alt="GPT-2 Generation" class="w-full h-full object-cover mix-blend-screen opacity-80"
+             src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOlxCsUQtK78Pa-SMkH6UdAvQrnILrrj-evO-ICBDttX-AJP8pUWPLVF_6MF93gz6tVVtFbLJchYcJaziXt9IHMLJ7NhcT3R_VxusRaTgno3kTpgHYixkgROHXsRo3XH59N3Gx36YTuowzIcjeeNt1gFHyPzRQOrFgNk5UdNwBkXUCWh7Ek_EouONyO9X6JqdAWuRDUTCUzClt2eESyMBwphzCqfnkhkd_T-2QTHY96LejE-W1yEmlcXxWoVRH1rcBsjUG9davlkg"/>
+      </div>
+      <div class="flex-grow">
+        <div class="flex gap-2 mb-4">
+          <span class="silk-inset px-3 py-1 rounded-full text-violet-400 font-mono-label text-[10px] tracking-wider uppercase">NLP</span>
+          <span class="silk-inset px-3 py-1 rounded-full text-neutral-500 font-mono-label text-[10px] tracking-wider uppercase">GPT-2</span>
+        </div>
+        <h3 class="font-h2 text-h2 text-neutral-50 mb-3 group-hover:text-violet-400 transition-colors">GPT-2 Story Generator</h3>
+        <p class="font-body-md text-body-md text-neutral-400 mb-6">
+          A Google Colab notebook that generates stories using GPT-2 Medium, comparing multiple decoding strategies — greedy search, beam search, and top-k sampling — with no paid APIs required.
+        </p>
+      </div>
+      <!-- ⚠️ Replace href with actual repo URL -->
+      <a href="https://github.com/yhefnyy" target="_blank" rel="noopener"
+         class="silk-inset px-5 py-3 rounded-lg text-neutral-300 font-label-md flex items-center justify-between hover:text-violet-400 transition-all duration-300 group/btn">
+        <span>View Repository</span>
+        <span class="material-symbols-outlined text-lg group-hover/btn:translate-x-1 transition-transform">arrow_forward</span>
+      </a>
+    </article>
+
+    <!-- Project 2 – Multilingual Website QA -->
+    <article class="silk-raised silk-hover silk-border group rounded-3xl bg-surface-container p-6 flex flex-col transition-all duration-500">
+      <div class="silk-inset rounded-2xl overflow-hidden mb-6 aspect-video relative">
+        <img alt="Multilingual QA" class="w-full h-full object-cover mix-blend-screen opacity-80"
+             src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtOhpq4VzGR8EbyZpSWkINJfLp7yCcdUOZ3xrjyDTX-5x2aLlaR9d72VXQViE3P9OPwNJ7mUcPuOzuzg2Mq4Luc1IvTCiRBF3SYJVt2KfSi2duq-kISTBx4ojX-L9lqMxQPdw5IfPsEacVru-0FYS7xxUaBt1ZHDF5oZt_jx3HDF5oZt_jx3HdhD947nV1-EFpnPntD7Wjgkuc75pu8usQiXdqTW_cEtqpdz2Wn0FNWS26ukMvRbG6zWgMjv5Ix1Kwc0XY3JkTglZ_3lzOxuo-HY"/>
+      </div>
+      <div class="flex-grow">
+        <div class="flex gap-2 mb-4">
+          <span class="silk-inset px-3 py-1 rounded-full text-violet-400 font-mono-label text-[10px] tracking-wider uppercase">RAG</span>
+          <span class="silk-inset px-3 py-1 rounded-full text-neutral-500 font-mono-label text-[10px] tracking-wider uppercase">FastAPI</span>
+        </div>
+        <h3 class="font-h2 text-h2 text-neutral-50 mb-3 group-hover:text-violet-400 transition-colors">Multilingual Website QA</h3>
+        <p class="font-body-md text-body-md text-neutral-400 mb-6">
+          A RAG-based QA system in Colab that scrapes websites, uses multilingual embeddings in a FAISS index, and answers queries in Arabic and English via FastAPI and pyngrok.
+        </p>
+      </div>
+      <!-- ⚠️ Replace href with actual repo URL -->
+      <a href="https://github.com/yhefnyy" target="_blank" rel="noopener"
+         class="silk-inset px-5 py-3 rounded-lg text-neutral-300 font-label-md flex items-center justify-between hover:text-violet-400 transition-all duration-300 group/btn">
+        <span>View Case Study</span>
+        <span class="material-symbols-outlined text-lg group-hover/btn:translate-x-1 transition-transform">arrow_forward</span>
+      </a>
+    </article>
+
+    <!-- Project 3 – DeepFake Detection App -->
+    <article class="silk-raised silk-hover silk-border group rounded-3xl bg-surface-container p-6 flex flex-col transition-all duration-500">
+      <div class="silk-inset rounded-2xl overflow-hidden mb-6 aspect-video relative">
+        <img alt="DeepFake Detection" class="w-full h-full object-cover mix-blend-screen opacity-80"
+             src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVMktGWhM0Aeci7_cTbkFhjGcKoB2XBZE0-6ObJCkp_zGSc7INEDDVcaSC9QEiWwSfpjnAj8aYgNKXKHmsQw6Z-HJEyiWy-x2QupWHHkOiOdX27GBPZaGi8SAn8hYutcW8wZF2o3P_ZrqFK5vjzGGiR4PTRiBL1aTVzXDRxjVTcMwVVBK9rF1oHpCAuyRbcXexu-Z7kf4uHA_7PtH7-LJkt1dRkrp2KPKiZha-kW1rs__vj3PlXC9YyHXozYdMV9ibMx32T9RGeCI"/>
+      </div>
+      <div class="flex-grow">
+        <div class="flex gap-2 mb-4">
+          <span class="silk-inset px-3 py-1 rounded-full text-violet-400 font-mono-label text-[10px] tracking-wider uppercase">Computer Vision</span>
+          <span class="silk-inset px-3 py-1 rounded-full text-neutral-500 font-mono-label text-[10px] tracking-wider uppercase">Next.js</span>
+        </div>
+        <h3 class="font-h2 text-h2 text-neutral-50 mb-3 group-hover:text-violet-400 transition-colors">DeepFake Detection App</h3>
+        <p class="font-body-md text-body-md text-neutral-400 mb-6">
+          A full-stack application (FastAPI/Next.js) capable of analyzing media for signs of manipulation using advanced deep learning models.
+        </p>
+      </div>
+      <!-- ⚠️ Replace href with actual demo/repo URL -->
+      <a href="https://github.com/yhefnyy" target="_blank" rel="noopener"
+         class="silk-inset px-5 py-3 rounded-lg text-neutral-300 font-label-md flex items-center justify-between hover:text-violet-400 transition-all duration-300 group/btn">
+        <span>Launch Demo</span>
+        <span class="material-symbols-outlined text-lg group-hover/btn:translate-x-1 transition-transform">arrow_forward</span>
+      </a>
+    </article>
+
+    <!-- Project 4 – MCP Chat CLI -->
+    <article class="silk-raised silk-hover silk-border group rounded-3xl bg-surface-container p-6 flex flex-col transition-all duration-500">
+      <div class="silk-inset rounded-2xl overflow-hidden mb-6 aspect-video relative">
+        <img alt="CLI Interface" class="w-full h-full object-cover mix-blend-screen opacity-80"
+             src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgnFm1yuAez9Ioee-Os0OTQ16HtV7SxX4SqNO_nc-0VIb9Z4cwowzkgHx3rG_TTA2rErPmhRBlRoTUBdbawuTQ_GHR2SU-WGiM1ed_7qbwkUEfVTgiyrOWRCFX7SpjxyGZOxZZrgXofsAgjUR_UWqSMAmKUmwRGzGMCoVbW-h0pcsHLey-DW3IngkFz7rQ_CdPeORZjZivWeYvv5j4QpiyLUrWCGbulnRrVe-ERQp6kGd7TLnDyJxBOz2LstFvYoBbaZCQXYw-ZOQ"/>
+      </div>
+      <div class="flex-grow">
+        <div class="flex gap-2 mb-4">
+          <span class="silk-inset px-3 py-1 rounded-full text-violet-400 font-mono-label text-[10px] tracking-wider uppercase">Agentic AI</span>
+          <span class="silk-inset px-3 py-1 rounded-full text-neutral-500 font-mono-label text-[10px] tracking-wider uppercase">MCP SDK</span>
+        </div>
+        <h3 class="font-h2 text-h2 text-neutral-50 mb-3 group-hover:text-violet-400 transition-colors">MCP Chat CLI</h3>
+        <p class="font-body-md text-body-md text-neutral-400 mb-6">
+          A command-line chat interface built with the Anthropic API and MCP SDK, featuring custom tool integrations via the Model Context Protocol and uv management.
+        </p>
+      </div>
+      <!-- ⚠️ Replace href with actual repo URL -->
+      <a href="https://github.com/yhefnyy" target="_blank" rel="noopener"
+         class="silk-inset px-5 py-3 rounded-lg text-neutral-300 font-label-md flex items-center justify-between hover:text-violet-400 transition-all duration-300 group/btn">
+        <span>View Docs</span>
+        <span class="material-symbols-outlined text-lg group-hover/btn:translate-x-1 transition-transform">arrow_forward</span>
+      </a>
+    </article>
+
+    <!-- Project 5 – Weather Prediction -->
+    <article class="silk-raised silk-hover silk-border group rounded-3xl bg-surface-container p-6 flex flex-col transition-all duration-500">
+      <div class="silk-inset rounded-2xl overflow-hidden mb-6 aspect-video relative">
+        <img alt="Weather Prediction" class="w-full h-full object-cover mix-blend-screen opacity-80"
+             src="https://lh3.googleusercontent.com/aida-public/AB6AXuBl6kuS0xALFMxLENQpdAwkFeSvf140ND1VrZpxYGxxF6E1jVwrlfa3jsstTWERb51E10rM8d0HYnDYMH_pKBnwbc_b5yUbl5v6FnxmmATYoHZLZkeLHF0QN7CMz_LDghGGQ4kiw75DBEEjzhyVR3c60bJgjJfXid46dnUNl8TRbnHUTDBCB99PRMF48PBcuJ3Uiw3pElZTVOEzurROXPyQ_xEfcGPE0zjqyn-XIOKSjhxZ5jH7tn4Zf7bq5y9QKd-OYOSex6j0j6w"/>
+      </div>
+      <div class="flex-grow">
+        <div class="flex gap-2 mb-4">
+          <span class="silk-inset px-3 py-1 rounded-full text-violet-400 font-mono-label text-[10px] tracking-wider uppercase">Time Series</span>
+          <span class="silk-inset px-3 py-1 rounded-full text-neutral-500 font-mono-label text-[10px] tracking-wider uppercase">LSTM/GRU</span>
+        </div>
+        <h3 class="font-h2 text-h2 text-neutral-50 mb-3 group-hover:text-violet-400 transition-colors">Weather Prediction Model</h3>
+        <p class="font-body-md text-body-md text-neutral-400 mb-6">
+          A time-series forecasting project using LSTM and GRU neural networks to predict complex weather patterns from extensive historical data.
+        </p>
+      </div>
+      <!-- ⚠️ Replace href with actual repo URL -->
+      <a href="https://github.com/yhefnyy" target="_blank" rel="noopener"
+         class="silk-inset px-5 py-3 rounded-lg text-neutral-300 font-label-md flex items-center justify-between hover:text-violet-400 transition-all duration-300 group/btn">
+        <span>View Analysis</span>
+        <span class="material-symbols-outlined text-lg group-hover/btn:translate-x-1 transition-transform">arrow_forward</span>
+      </a>
+    </article>
+
+    <!-- Project 6 – HAR -->
+    <article class="silk-raised silk-hover silk-border group rounded-3xl bg-surface-container p-6 flex flex-col transition-all duration-500">
+      <div class="silk-inset rounded-2xl overflow-hidden mb-6 aspect-video relative">
+        <img alt="HAR Classification" class="w-full h-full object-cover mix-blend-screen opacity-80"
+             src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaxE1W16uFLTuYb8Kr_Owf1_MkgLdqGZPjYbZX36ALLNr83jwU-jrXtPdeVaZwXz5BUigXJQBmhYwrHZoQztf3QBUDCCSmwu-vPWp9CuNUDU_v4BPhBDLlV45DsgtB38nS6sWcowhZHMML33uvXEz3V2G6s42KQFUH-xv4x0hJQx80LNO8g1i-bylmqQTg4hQuz4KSqTmKJ_x4WxLp2HXyFWK6KmV35B6nLmkcjYEuiENcWOPWhlS4ajwI2iygnx7QHf2NjgNUdok"/>
+      </div>
+      <div class="flex-grow">
+        <div class="flex gap-2 mb-4">
+          <span class="silk-inset px-3 py-1 rounded-full text-violet-400 font-mono-label text-[10px] tracking-wider uppercase">Classification</span>
+          <span class="silk-inset px-3 py-1 rounded-full text-neutral-500 font-mono-label text-[10px] tracking-wider uppercase">LSTM</span>
+        </div>
+        <h3 class="font-h2 text-h2 text-neutral-50 mb-3 group-hover:text-violet-400 transition-colors">Human Activity Recognition</h3>
+        <p class="font-body-md text-body-md text-neutral-400 mb-6">
+          An LSTM-based classification model that identifies human physical activities (e.g. walking, sitting, running) with high accuracy from sensor data.
+        </p>
+      </div>
+      <!-- ⚠️ Replace href with actual repo URL -->
+      <a href="https://github.com/yhefnyy" target="_blank" rel="noopener"
+         class="silk-inset px-5 py-3 rounded-lg text-neutral-300 font-label-md flex items-center justify-between hover:text-violet-400 transition-all duration-300 group/btn">
+        <span>View Case Study</span>
+        <span class="material-symbols-outlined text-lg group-hover/btn:translate-x-1 transition-transform">arrow_forward</span>
+      </a>
+    </article>
+
+  </div>
+</main>
+
+<footer class="bg-neutral-950 border-t border-white/5 py-12" style="box-shadow:inset 0px 2px 10px rgba(0,0,0,0.5)">
+  <div class="max-w-7xl mx-auto px-12 flex flex-col md:flex-row justify-between items-center gap-6">
+    <div class="font-['Plus_Jakarta_Sans'] text-xs text-neutral-500 uppercase tracking-widest">© 2025 Youssef Hefny. All rights reserved.</div>
+    <div class="flex gap-8">
+      <a href="https://github.com/yhefnyy" target="_blank" rel="noopener" class="font-['Plus_Jakarta_Sans'] text-xs text-neutral-600 hover:text-violet-400 transition-colors uppercase tracking-widest">Github</a>
+      <a href="https://www.linkedin.com/in/youssef-hefny-03267b259" target="_blank" rel="noopener" class="font-['Plus_Jakarta_Sans'] text-xs text-neutral-600 hover:text-violet-400 transition-colors uppercase tracking-widest">LinkedIn</a>
+      <a href="mailto:youssefhefny15@gmail.com" class="font-['Plus_Jakarta_Sans'] text-xs text-neutral-600 hover:text-violet-400 transition-colors uppercase tracking-widest">Email</a>
+    </div>
+  </div>
+</footer>
+</section>
+
+<!-- ============================================================ CREDENTIALS PAGE -->
+<section id="page-credentials" class="page-section">
+<main class="pt-32 pb-24 px-8 md:px-12 max-w-[1440px] mx-auto">
+
+  <header class="mb-16">
+    <h1 class="font-h1 text-h1 text-neutral-50 mb-4">Credentials &amp; Capabilities</h1>
+    <p class="font-body-lg text-body-lg text-neutral-400 max-w-2xl">
+      A technical documentation of engineering proficiencies, specialized AI models, and industry-standard certifications validated by global leaders.
+    </p>
+  </header>
+
+  <!-- What I Can Do -->
+  <div class="mb-20">
+    <div class="flex items-center gap-3 mb-10">
+      <span class="w-1 h-8 rounded-full bg-violet-500"></span>
+      <h2 class="font-h2 text-h2 text-neutral-50">What I Can Do</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- LLM Integration -->
+      <div class="silk-raised silk-border rounded-2xl bg-surface-container p-6 transition-all duration-300 hover:border-violet-500/20">
+        <span class="material-symbols-outlined text-violet-400 text-3xl mb-5 block">hub</span>
+        <h3 class="font-semibold text-neutral-50 text-lg mb-3">LLM Integration &amp; API Development</h3>
+        <p class="text-neutral-400 text-sm leading-relaxed mb-5">
+          Building AI-powered applications using large language model APIs, tool-calling pipelines, and agentic workflows with the MCP architecture.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="skill-tag purple">Anthropic API</span>
+          <span class="skill-tag purple">MCP SDK</span>
+          <span class="skill-tag">FastAPI</span>
+          <span class="skill-tag">REST APIs</span>
+        </div>
+      </div>
+
+      <!-- Deep Learning -->
+      <div class="silk-raised silk-border rounded-2xl bg-surface-container p-6 transition-all duration-300 hover:border-violet-500/20">
+        <span class="material-symbols-outlined text-violet-400 text-3xl mb-5 block">psychology</span>
+        <h3 class="font-semibold text-neutral-50 text-lg mb-3">Deep Learning &amp; Model Training</h3>
+        <p class="text-neutral-400 text-sm leading-relaxed mb-5">
+          Designing and training neural networks for classification, generation, and time-series forecasting across vision, NLP, and sensor data domains.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="skill-tag purple">PyTorch</span>
+          <span class="skill-tag">LSTM/GRU</span>
+          <span class="skill-tag">CNN</span>
+          <span class="skill-tag">Fine-tuning</span>
+        </div>
+      </div>
+
+      <!-- NLP -->
+      <div class="silk-raised silk-border rounded-2xl bg-surface-container p-6 transition-all duration-300 hover:border-violet-500/20">
+        <span class="material-symbols-outlined text-violet-400 text-3xl mb-5 block">translate</span>
+        <h3 class="font-semibold text-neutral-50 text-lg mb-3">Natural Language Processing</h3>
+        <p class="text-neutral-400 text-sm leading-relaxed mb-5">
+          Building multilingual NLP systems including RAG pipelines, QA models, transformer-based embeddings, and text generation with BERT and GPT-2.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="skill-tag purple">Transformers</span>
+          <span class="skill-tag">BERT</span>
+          <span class="skill-tag">GPT-2</span>
+          <span class="skill-tag">FAISS</span>
+          <span class="skill-tag">RAG</span>
+        </div>
+      </div>
+
+      <!-- Computer Vision -->
+      <div class="silk-raised silk-border rounded-2xl bg-surface-container p-6 transition-all duration-300 hover:border-violet-500/20">
+        <span class="material-symbols-outlined text-violet-400 text-3xl mb-5 block">visibility</span>
+        <h3 class="font-semibold text-neutral-50 text-lg mb-3">Computer Vision</h3>
+        <p class="text-neutral-400 text-sm leading-relaxed mb-5">
+          Implementing detection and recognition systems including deepfake detection, feature extraction with CLIP and ViT, and classical techniques like Harris and SIFT.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="skill-tag purple">CLIP/ViT</span>
+          <span class="skill-tag">SVD</span>
+          <span class="skill-tag">OpenCV</span>
+          <span class="skill-tag">SIFT</span>
+        </div>
+      </div>
+
+      <!-- Full-Stack AI -->
+      <div class="silk-raised silk-border rounded-2xl bg-surface-container p-6 transition-all duration-300 hover:border-violet-500/20">
+        <span class="material-symbols-outlined text-violet-400 text-3xl mb-5 block">layers</span>
+        <h3 class="font-semibold text-neutral-50 text-lg mb-3">Full-Stack AI Applications</h3>
+        <p class="text-neutral-400 text-sm leading-relaxed mb-5">
+          Shipping end-to-end AI products with backend inference APIs and modern frontend interfaces, from local prototypes to deployed systems.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="skill-tag purple">FastAPI</span>
+          <span class="skill-tag">Next.js</span>
+          <span class="skill-tag">pyngrok</span>
+          <span class="skill-tag">Docker</span>
+        </div>
+      </div>
+
+      <!-- Data Analysis -->
+      <div class="silk-raised silk-border rounded-2xl bg-surface-container p-6 transition-all duration-300 hover:border-violet-500/20">
+        <span class="material-symbols-outlined text-violet-400 text-3xl mb-5 block">show_chart</span>
+        <h3 class="font-semibold text-neutral-50 text-lg mb-3">Data Analysis &amp; ML Pipelines</h3>
+        <p class="text-neutral-400 text-sm leading-relaxed mb-5">
+          Extracting insights from structured datasets, building preprocessing pipelines, and translating data findings into actionable decisions as a professional data analyst.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="skill-tag purple">Python</span>
+          <span class="skill-tag">Pandas</span>
+          <span class="skill-tag">Scikit-learn</span>
+          <span class="skill-tag">SQL</span>
+        </div>
+      </div>
+
+      <!-- N8N Automation -->
+      <div class="silk-raised silk-border rounded-2xl bg-surface-container p-6 transition-all duration-300 hover:border-violet-500/20">
+        <span class="material-symbols-outlined text-violet-400 text-3xl mb-5 block">account_tree</span>
+        <h3 class="font-semibold text-neutral-50 text-lg mb-3">Workflow Automation with N8N</h3>
+        <p class="text-neutral-400 text-sm leading-relaxed mb-5">
+          Building and managing automated AI workflows using N8N, connecting LLMs, APIs, and external services into end-to-end pipelines.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="skill-tag purple">N8N</span>
+          <span class="skill-tag">Workflow Automation</span>
+          <span class="skill-tag">AI Pipelines</span>
+          <span class="skill-tag">API Integration</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Certifications -->
+  <div class="mb-20">
+    <div class="flex items-center gap-3 mb-10">
+      <span class="w-1 h-8 rounded-full bg-violet-500"></span>
+      <h2 class="font-h2 text-h2 text-neutral-50">Certifications &amp; Credentials</h2>
+    </div>
+    <div class="flex flex-col gap-4">
+
+      <!-- Cert 1 -->
+      <div class="silk-raised silk-border rounded-2xl bg-surface-container p-5 flex items-center gap-5 hover:border-violet-500/20 transition-all duration-300">
+        <div class="cert-icon">
+          <span class="material-symbols-outlined text-violet-400 text-2xl">school</span>
+        </div>
+        <div class="flex-grow min-w-0">
+          <h4 class="text-neutral-100 font-semibold text-sm mb-1">Multi-Modal Models with Hugging Face</h4>
+          <p class="text-neutral-500 text-xs">DataCamp Professional Certification</p>
+        </div>
+        <div class="flex flex-col items-end gap-1 flex-shrink-0">
+          <span class="verified-badge">Verified</span>
+          <span class="text-neutral-600 text-xs">DataCamp</span>
+        </div>
+      </div>
+
+      <!-- Cert 2 -->
+      <div class="silk-raised silk-border rounded-2xl bg-surface-container p-5 flex items-center gap-5 hover:border-violet-500/20 transition-all duration-300">
+        <div class="cert-icon">
+          <span class="material-symbols-outlined text-violet-400 text-2xl">school</span>
+        </div>
+        <div class="flex-grow min-w-0">
+          <h4 class="text-neutral-100 font-semibold text-sm mb-1">Working with Hugging Face</h4>
+          <p class="text-neutral-500 text-xs">DataCamp Professional Certification</p>
+        </div>
+        <div class="flex flex-col items-end gap-1 flex-shrink-0">
+          <span class="verified-badge">Verified</span>
+          <span class="text-neutral-600 text-xs">DataCamp</span>
+        </div>
+      </div>
+
+      <!-- Cert 3 -->
+      <div class="silk-raised silk-border rounded-2xl bg-surface-container p-5 flex items-center gap-5 hover:border-violet-500/20 transition-all duration-300">
+        <div class="cert-icon">
+          <span class="material-symbols-outlined text-violet-400 text-2xl">deployed_code</span>
+        </div>
+        <div class="flex-grow min-w-0">
+          <h4 class="text-neutral-100 font-semibold text-sm mb-1">Containerization and Virtualization with Docker and Kubernetes</h4>
+          <p class="text-neutral-500 text-xs">DataCamp Infrastructure Certification</p>
+        </div>
+        <div class="flex flex-col items-end gap-1 flex-shrink-0">
+          <span class="verified-badge">Verified</span>
+          <span class="text-neutral-600 text-xs">DataCamp</span>
+        </div>
+      </div>
+
+      <!-- Cert 4 -->
+      <div class="silk-raised silk-border rounded-2xl bg-surface-container p-5 flex items-center gap-5 hover:border-violet-500/20 transition-all duration-300">
+        <div class="cert-icon">
+          <span class="material-symbols-outlined text-violet-400 text-2xl">hub</span>
+        </div>
+        <div class="flex-grow min-w-0">
+          <h4 class="text-neutral-100 font-semibold text-sm mb-1">Introduction to Model Context Protocol</h4>
+          <p class="text-neutral-500 text-xs">Anthropic Developer Certification</p>
+        </div>
+        <div class="flex flex-col items-end gap-1 flex-shrink-0">
+          <span class="verified-badge">Verified</span>
+          <span class="text-neutral-600 text-xs">Anthropic</span>
+        </div>
+      </div>
+
+      <!-- Cert 5 -->
+      <div class="silk-raised silk-border rounded-2xl bg-surface-container p-5 flex items-center gap-5 hover:border-violet-500/20 transition-all duration-300">
+        <div class="cert-icon">
+          <span class="material-symbols-outlined text-violet-400 text-2xl">analytics</span>
+        </div>
+        <div class="flex-grow min-w-0">
+          <h4 class="text-neutral-100 font-semibold text-sm mb-1">Data Analysis Skills for the Freelance Professional</h4>
+          <p class="text-neutral-500 text-xs">Digital Egypt Youth Program – NTI Certification</p>
+        </div>
+        <div class="flex flex-col items-end gap-1 flex-shrink-0">
+          <span class="verified-badge">Verified</span>
+          <span class="text-neutral-600 text-xs">DEY Program</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Technical Stack -->
+  <div class="silk-inset rounded-3xl p-10 text-center">
+    <p class="font-mono-label text-mono-label text-neutral-500 tracking-[0.2em] uppercase mb-8">Technical Stack</p>
+    <div class="flex flex-wrap justify-center gap-x-12 gap-y-4">
+      <span class="text-neutral-300 font-semibold text-sm">Python</span>
+      <span class="text-neutral-300 font-semibold text-sm">PyTorch</span>
+      <span class="text-neutral-300 font-semibold text-sm">LangChain</span>
+      <span class="text-neutral-300 font-semibold text-sm">Transformers</span>
+      <span class="text-neutral-300 font-semibold text-sm">N8N</span>
+      <span class="text-neutral-300 font-semibold text-sm">TensorFlow</span>
+      <span class="text-neutral-300 font-semibold text-sm">Docker</span>
+      <span class="text-neutral-300 font-semibold text-sm">FastAPI</span>
+      <span class="text-neutral-300 font-semibold text-sm">Next.js</span>
+      <span class="text-neutral-300 font-semibold text-sm">FAISS</span>
+    </div>
+  </div>
+
+</main>
+
+<footer class="bg-neutral-950 border-t border-white/5 py-12 mt-12" style="box-shadow:inset 0px 2px 10px rgba(0,0,0,0.5)">
+  <div class="max-w-7xl mx-auto px-12 flex flex-col md:flex-row justify-between items-center gap-6">
+    <div class="font-['Plus_Jakarta_Sans'] text-xs text-neutral-500 uppercase tracking-widest">© 2025 Youssef Hefny. All rights reserved.</div>
+    <div class="flex gap-8">
+      <a href="https://github.com/yhefnyy" target="_blank" rel="noopener" class="font-['Plus_Jakarta_Sans'] text-xs text-neutral-600 hover:text-violet-400 transition-colors uppercase tracking-widest">Github</a>
+      <a href="https://www.linkedin.com/in/youssef-hefny-03267b259" target="_blank" rel="noopener" class="font-['Plus_Jakarta_Sans'] text-xs text-neutral-600 hover:text-violet-400 transition-colors uppercase tracking-widest">LinkedIn</a>
+      <a href="mailto:youssefhefny15@gmail.com" class="font-['Plus_Jakarta_Sans'] text-xs text-neutral-600 hover:text-violet-400 transition-colors uppercase tracking-widest">Email</a>
+    </div>
+  </div>
+</footer>
+</section>
+
+<!-- ============================================================ CONTACT PAGE -->
+<section id="page-contact" class="page-section">
+<main class="pt-32 pb-0 px-8 md:px-12 max-w-[1440px] mx-auto">
+
+  <!-- Hero -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-20">
+    <div>
+      <h1 class="font-display text-[36px] md:text-display font-black tracking-tight text-neutral-50 mb-6">
+        Let's bridge the <em class="text-violet-400 not-italic">neural</em> gap.
+      </h1>
+      <p class="font-body-lg text-body-lg text-neutral-400 max-w-lg">
+        I'm currently open for high-impact AI engineering roles, technical consultations, and strategic partnerships in the machine learning space.
+      </p>
+    </div>
+    <div class="silk-raised silk-border rounded-3xl overflow-hidden aspect-video bg-surface-container-high flex items-center justify-center">
+      <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgnFm1yuAez9Ioee-Os0OTQ16HtV7SxX4SqNO_nc-0VIb9Z4cwowzkgHx3rG_TTA2rErPmhRBlRoTUBdbawuTQ_GHR2SU-WGiM1ed_7qbwkUEfVTgiyrOWRCFX7SpjxyGZOxZZrgXofsAgjUR_UWqSMAmKUmwRGzGMCoVbW-h0pcsHLey-DW3IngkFz7rQ_CdPeORZjZivWeYvv5j4QpiyLUrWCGbulnRrVe-ERQp6kGd7TLnDyJxBOz2LstFvYoBbaZCQXYw-ZOQ"
+           alt="AI visualization" class="w-full h-full object-cover mix-blend-screen opacity-70"/>
+    </div>
+  </div>
+
+  <!-- Channels + Form -->
+  <div class="silk-raised silk-border rounded-3xl bg-surface-container p-8 md:p-12 mb-0">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+
+      <!-- Left: Direct Channels -->
+      <div>
+        <div class="flex items-center gap-3 mb-8">
+          <span class="material-symbols-outlined text-violet-400 text-xl">sensors</span>
+          <h2 class="font-h2 text-h2 text-neutral-50">Direct Channels</h2>
+        </div>
+        <div class="flex flex-col gap-3 mb-8">
+
+          <a href="mailto:youssefhefny15@gmail.com" class="channel-card">
+            <div class="silk-inset w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0">
+              <span class="material-symbols-outlined text-violet-400 text-base">alternate_email</span>
+            </div>
+            <div>
+              <p class="text-neutral-500 text-[10px] uppercase font-semibold tracking-wider mb-0.5">Email</p>
+              <p class="text-neutral-200 text-sm">youssefhefny15@gmail.com</p>
+            </div>
+          </a>
+
+          <a href="https://www.linkedin.com/in/youssef-hefny-03267b259" target="_blank" rel="noopener" class="channel-card">
+            <div class="silk-inset w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0">
+              <span class="material-symbols-outlined text-violet-400 text-base">link</span>
+            </div>
+            <div>
+              <p class="text-neutral-500 text-[10px] uppercase font-semibold tracking-wider mb-0.5">LinkedIn</p>
+              <p class="text-neutral-200 text-sm">linkedin.com/in/youssef-hefny-03267b259</p>
+            </div>
+          </a>
+
+          <a href="https://github.com/yhefnyy" target="_blank" rel="noopener" class="channel-card">
+            <div class="silk-inset w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0">
+              <span class="material-symbols-outlined text-violet-400 text-base">code</span>
+            </div>
+            <div>
+              <p class="text-neutral-500 text-[10px] uppercase font-semibold tracking-wider mb-0.5">GitHub</p>
+              <p class="text-neutral-200 text-sm">github.com/yhefnyy</p>
+            </div>
+          </a>
+
+        </div>
+
+        <!-- System Status -->
+        <div class="silk-inset rounded-2xl p-5">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 led-pulse" style="box-shadow:0 0 8px #34d399"></span>
+            <span class="text-emerald-400 text-[10px] uppercase tracking-[0.15em] font-semibold">System Status: Active</span>
+          </div>
+          <p class="text-neutral-400 text-sm leading-relaxed">
+            Available for select freelance projects starting Q1 2025. Current latency for replies: ~24 hours.
+          </p>
+        </div>
+      </div>
+
+      <!-- Right: Contact Form -->
+      <div>
+        <!--
+          ⚠️ FORM SETUP (for GitHub Pages):
+          1. Go to https://formspree.io and create a free account
+          2. Create a new form → get your endpoint URL
+          3. Replace "YOUR_FORMSPREE_ID" below with your actual ID
+          OR use the mailto fallback (already set as action below)
+        -->
+        <form id="contact-form" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST" onsubmit="handleSubmit(event)">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+            <div>
+              <label class="field-label" for="name">Operator Name</label>
+              <input class="input-field" type="text" id="name" name="name" placeholder="John Doe" required/>
+            </div>
+            <div>
+              <label class="field-label" for="email">Endpoint (Email)</label>
+              <input class="input-field" type="email" id="email" name="email" placeholder="john@company.ai" required/>
+            </div>
+          </div>
+          <div class="mb-5">
+            <label class="field-label" for="message">Instruction Set (Message)</label>
+            <textarea class="input-field" id="message" name="message" placeholder="Describe the project scope and technical requirements…" required></textarea>
+          </div>
+          <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <p class="text-neutral-600 text-xs max-w-[220px] leading-relaxed">
+              By submitting this form, you acknowledge that your data will be processed according to the system protocols.
+            </p>
+            <button type="submit" class="transmit-btn silk-raised silk-border">
+              <span id="submit-label">Transmit Request</span>
+              <span class="material-symbols-outlined text-base">send</span>
+            </button>
+          </div>
+          <p id="form-status" class="mt-4 text-sm hidden"></p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- Map -->
+<div class="relative mt-0 h-80 overflow-hidden">
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d220940.51710474595!2d29.8543!3d31.2001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14f5c49126651fa3%3A0xb608e19cb5eeb5f4!2sAlexandria%2C%20Egypt!5e0!3m2!1sen!2seg!4v1700000000000"
+    width="100%" height="100%" style="border:0;filter:grayscale(100%) invert(90%) contrast(90%) brightness(40%) sepia(20%);"
+    allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Alexandria, Egypt"></iframe>
+  <!-- Overlay card -->
+  <div class="absolute bottom-8 left-8 md:left-12 silk-raised silk-border bg-surface-container rounded-2xl p-5 max-w-[260px]">
+    <p class="text-violet-500 text-[10px] uppercase tracking-[0.15em] font-semibold mb-2">Base of Operations</p>
+    <h3 class="text-neutral-50 text-xl font-bold mb-1">Alexandria, Egypt</h3>
+    <p class="text-neutral-400 text-xs">Ready for global remote collaboration.</p>
+  </div>
+</div>
+
+<footer class="bg-neutral-950 border-t border-white/5 py-12" style="box-shadow:inset 0px 2px 10px rgba(0,0,0,0.5)">
+  <div class="max-w-7xl mx-auto px-12 flex flex-col md:flex-row justify-between items-center gap-6">
+    <div class="font-['Plus_Jakarta_Sans'] text-xs text-neutral-500 uppercase tracking-widest">© 2025 Youssef Hefny. All rights reserved.</div>
+    <div class="flex gap-8">
+      <a href="https://github.com/yhefnyy" target="_blank" rel="noopener" class="font-['Plus_Jakarta_Sans'] text-xs text-neutral-600 hover:text-violet-400 transition-colors uppercase tracking-widest">Github</a>
+      <a href="https://www.linkedin.com/in/youssef-hefny-03267b259" target="_blank" rel="noopener" class="font-['Plus_Jakarta_Sans'] text-xs text-neutral-600 hover:text-violet-400 transition-colors uppercase tracking-widest">LinkedIn</a>
+      <a href="mailto:youssefhefny15@gmail.com" class="font-['Plus_Jakarta_Sans'] text-xs text-neutral-600 hover:text-violet-400 transition-colors uppercase tracking-widest">Email</a>
+    </div>
+  </div>
+</footer>
+</section>
+
+<!-- ============================================================ SCRIPT -->
+<script>
+  const PAGES = ['home', 'projects', 'credentials', 'contact'];
+
+  function navigate(page) {
+    if (!PAGES.includes(page)) page = 'home';
+
+    // Show/hide sections
+    PAGES.forEach(p => {
+      document.getElementById('page-' + p).classList.remove('active');
+    });
+    document.getElementById('page-' + page).classList.add('active');
+
+    // Update nav styles
+    document.querySelectorAll('.nav-link').forEach(el => {
+      el.classList.remove('is-active');
+      el.style.color = '';
+    });
+    const activeLink = document.querySelector(`.nav-link[data-page="${page}"]`);
+    if (activeLink) activeLink.classList.add('is-active');
+
+    // Update URL hash (no page reload)
+    history.pushState(null, '', '#' + page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Handle browser back/forward
+  window.addEventListener('popstate', () => {
+    const hash = location.hash.slice(1);
+    navigate(PAGES.includes(hash) ? hash : 'home');
+  });
+
+  // Init on load
+  (function () {
+    const hash = location.hash.slice(1);
+    navigate(PAGES.includes(hash) ? hash : 'home');
+  })();
+
+  // Contact form submission
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const form = document.getElementById('contact-form');
+    const btn  = document.getElementById('submit-label');
+    const status = document.getElementById('form-status');
+
+    btn.textContent = 'Transmitting…';
+
+    // If Formspree ID is still placeholder, fall back to mailto
+    if (form.action.includes('YOUR_FORMSPREE_ID')) {
+      const name    = document.getElementById('name').value;
+      const email   = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+      window.location.href = `mailto:youssefhefny15@gmail.com?subject=Portfolio Inquiry from ${encodeURIComponent(name)}&body=${encodeURIComponent(message + '\n\nFrom: ' + name + '\nEmail: ' + email)}`;
+      btn.textContent = 'Transmit Request';
+      return;
+    }
+
+    try {
+      const data = new FormData(form);
+      const res  = await fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
+      if (res.ok) {
+        status.textContent = '✓ Message transmitted successfully. I\'ll respond within 24 hours.';
+        status.className = 'mt-4 text-sm text-emerald-400';
+        form.reset();
+      } else {
+        throw new Error('Server error');
+      }
+    } catch {
+      status.textContent = '⚠ Transmission failed. Please email me directly at youssefhefny15@gmail.com';
+      status.className = 'mt-4 text-sm text-red-400';
+    }
+    btn.textContent = 'Transmit Request';
+  }
+</script>
+</body>
+</html>
