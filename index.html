@@ -156,6 +156,7 @@
 </style>
 </head>
 <body class="text-on-surface font-body-md selection:bg-primary/30">
+<canvas id="particle-bg" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
 
 <!-- ============================================================ NAV -->
 <nav class="fixed top-0 w-full z-50 flex justify-between items-center px-8 md:px-12 py-5 bg-[#031427]/90 backdrop-blur-md border-b border-white/5"
@@ -177,7 +178,7 @@
 </nav>
 
 <!-- ============================================================ HOME PAGE -->
-<section id="page-home" class="page-section">
+<section id="page-home" class="page-section" style="position:relative;z-index:1;">
 <main class="pt-24 px-8 md:px-12 max-w-[1440px] mx-auto">
 
   <!-- Hero -->
@@ -331,7 +332,7 @@
 </section>
 
 <!-- ============================================================ PROJECTS PAGE -->
-<section id="page-projects" class="page-section">
+<section id="page-projects" class="page-section" style="position:relative;z-index:1;">
 <main class="pt-32 pb-24 px-8 md:px-12 max-w-[1440px] mx-auto">
   <header class="mb-16">
     <div class="flex items-center gap-3 mb-4">
@@ -506,7 +507,7 @@
 </section>
 
 <!-- ============================================================ CREDENTIALS PAGE -->
-<section id="page-credentials" class="page-section">
+<section id="page-credentials" class="page-section" style="position:relative;z-index:1;">
 <main class="pt-32 pb-24 px-8 md:px-12 max-w-[1440px] mx-auto">
 
   <header class="mb-16">
@@ -751,7 +752,7 @@
 </section>
 
 <!-- ============================================================ CONTACT PAGE -->
-<section id="page-contact" class="page-section">
+<section id="page-contact" class="page-section" style="position:relative;z-index:1;">
 <main class="pt-32 pb-0 px-8 md:px-12 max-w-[1440px] mx-auto">
 
   <!-- Hero -->
@@ -966,6 +967,68 @@
     }
     btn.textContent = 'Transmit Request';
   }
+</script>
+  <script>
+  (function () {
+    const canvas = document.getElementById('particle-bg');
+    const ctx    = canvas.getContext('2d');
+    const CONFIG = {
+      count       : 90,
+      maxDist     : 140,
+      mouseRadius : 180,
+      mouseForce  : 0.12,
+      speed       : 0.45,
+      dotRadius   : 1.8,
+      dotColor    : 'rgba(139, 92, 246, 0.75)',
+      lineColor   : [139, 92, 246],
+    };
+    let W, H, mouse = { x: -9999, y: -9999 };
+    let particles = [];
+    function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    function Particle() { this.x = Math.random()*W; this.y = Math.random()*H; this.vx = (Math.random()-0.5)*CONFIG.speed; this.vy = (Math.random()-0.5)*CONFIG.speed; }
+    Particle.prototype.update = function () {
+      const dx = this.x - mouse.x, dy = this.y - mouse.y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist < CONFIG.mouseRadius) { const f = (CONFIG.mouseRadius-dist)/CONFIG.mouseRadius; this.vx += dx/dist*f*CONFIG.mouseForce; this.vy += dy/dist*f*CONFIG.mouseForce; }
+      this.vx *= 0.995; this.vy *= 0.995;
+      const spd = Math.sqrt(this.vx*this.vx + this.vy*this.vy);
+      if (spd < 0.1) { this.vx += (Math.random()-0.5)*0.1; this.vy += (Math.random()-0.5)*0.1; }
+      this.x += this.vx; this.y += this.vy;
+      if (this.x < 0) this.x = W; if (this.x > W) this.x = 0;
+      if (this.y < 0) this.y = H; if (this.y > H) this.y = 0;
+    };
+    function init() { particles = Array.from({length: CONFIG.count}, () => new Particle()); }
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        ctx.beginPath(); ctx.arc(particles[i].x, particles[i].y, CONFIG.dotRadius, 0, Math.PI*2);
+        ctx.fillStyle = CONFIG.dotColor; ctx.fill();
+      }
+      const [r,g,b] = CONFIG.lineColor;
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i+1; j < particles.length; j++) {
+          const dx = particles[i].x-particles[j].x, dy = particles[i].y-particles[j].y;
+          const dist = Math.sqrt(dx*dx+dy*dy);
+          if (dist < CONFIG.maxDist) {
+            ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(${r},${g},${b},${(1-dist/CONFIG.maxDist)*0.25})`; ctx.lineWidth = 0.8; ctx.stroke();
+          }
+        }
+        const mx = particles[i].x-mouse.x, my = particles[i].y-mouse.y;
+        const mdist = Math.sqrt(mx*mx+my*my);
+        if (mdist < CONFIG.mouseRadius) {
+          ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(mouse.x, mouse.y);
+          ctx.strokeStyle = `rgba(${r},${g},${b},${(1-mdist/CONFIG.mouseRadius)*0.5})`; ctx.lineWidth = 0.8; ctx.stroke();
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+    window.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; });
+    resize(); init(); draw();
+  })();
 </script>
 </body>
 </html>
