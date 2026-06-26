@@ -161,17 +161,16 @@
 <!-- ============================================================ NAV -->
 <nav class="fixed top-0 w-full z-50 flex justify-between items-center px-8 md:px-12 py-5 bg-[#031427]/90 backdrop-blur-md border-b border-white/5"
      style="box-shadow:4px 4px 10px rgba(0,0,0,0.3),-2px -2px 10px rgba(255,255,255,0.02)">
-  <div onclick="navigate('home')" class="text-2xl font-black tracking-tighter cursor-pointer select-none flex items-center gap-0.5">
-    <span class="text-neutral-50">YH</span><span class="text-violet-400">&lt;/&gt;</span>
-  </div>
+   <div onclick="navigate('home')" class="text-sm font-black tracking-widest cursor-pointer select-none uppercase text-neutral-400 hover:text-violet-400 transition-colors">
+    Youssef Hefny
+   </div>
   <div class="hidden md:flex items-center gap-8">
     <span onclick="navigate('home')"       class="nav-link font-['Plus_Jakarta_Sans'] text-sm tracking-wide uppercase font-semibold text-neutral-400" data-page="home">Home</span>
     <span onclick="navigate('projects')"   class="nav-link font-['Plus_Jakarta_Sans'] text-sm tracking-wide uppercase font-semibold text-neutral-400" data-page="projects">Projects</span>
     <span onclick="navigate('credentials')"class="nav-link font-['Plus_Jakarta_Sans'] text-sm tracking-wide uppercase font-semibold text-neutral-400" data-page="credentials">Credentials</span>
     <span onclick="navigate('contact')"    class="nav-link font-['Plus_Jakarta_Sans'] text-sm tracking-wide uppercase font-semibold text-neutral-400" data-page="contact">Contact</span>
   </div>
-  <!-- ⚠️ Replace href with your actual hosted resume PDF link -->
-  <a href="https://drive.google.com/file/d/1l9v5aO8hQ9G8J4WcUwr249fEKvS4XEvn/view?usp=sharing" target="_blank" rel="noopener"
+  <a href="./resume.pdf" target="_blank" rel="noopener"
      class="silk-raised silk-border px-6 py-2 rounded-lg font-['Plus_Jakarta_Sans'] text-sm tracking-wide uppercase font-semibold text-violet-500 hover:bg-white/5 active:scale-95 transition-all duration-300">
     Resume
   </a>
@@ -204,8 +203,7 @@
     </div>
     <div class="relative flex justify-center">
       <div class="silk-raised silk-border rounded-3xl overflow-hidden max-w-sm w-full bg-surface-container-high" style="aspect-ratio:4/5">
-        <!-- ⚠️ Replace src with your actual photo URL or relative path e.g. "photo.jpg" -->
-        <img src="Photo.jfif" alt="Youssef Hefny"
+        <img src="Grad_PP.jpeg" alt="Youssef Hefny"
              class="w-full h-full object-cover"
              onerror="this.style.display='none';document.getElementById('photo-fallback').style.display='flex'"/>
         <div id="photo-fallback" style="display:none" class="w-full h-full flex flex-col items-center justify-center gap-4 bg-gradient-to-br from-[#1b2b3f] to-[#102034]">
@@ -836,7 +834,7 @@
           3. Replace "YOUR_FORMSPREE_ID" below with your actual ID
           OR use the mailto fallback (already set as action below)
         -->
-        <form id="contact-form" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST" onsubmit="handleSubmit(event)">
+        <form id="contact-form" action="https://formspree.io/f/mbdvogwz" method="POST" onsubmit="handleSubmit(event)">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
             <div>
               <label class="field-label" for="name">Operator Name</label>
